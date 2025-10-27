@@ -12,10 +12,7 @@
       <section>
         <h2 class="font-bold mb-4">In Progress</h2>
         <ul>
-          <li
-            v-for="assignment in assignments.filter(a => !a.complete)"
-            :key="assignment.id"
-          >
+          <li v-for="assignment in inprogressAssignments" :key="assignment.id">
             <label>
               {{ assignment.name }}
               <input type="checkbox" v-model="assignment.complete" />
@@ -23,13 +20,10 @@
           </li>
         </ul>
       </section>
-      <section>
+      <section v-show="completedAssignments.length">
         <h2 class="font-bold mb-4 mt-8">Completed Assignments</h2>
         <ul>
-          <li
-            v-for="assignment in assignments.filter(a => a.complete)"
-            :key="assignment.id"
-          >
+          <li v-for="assignment in completedAssignments" :key="assignment.id">
             <label>
               {{ assignment.name }}
               <input type="checkbox" v-model="assignment.complete" />
@@ -62,6 +56,18 @@
               },
             ],
           };
+        },
+
+        computed: {
+          completedAssignments() {
+            return this.assignments.filter((assignment) => assignment.complete);
+          },
+
+          inprogressAssignments() {
+            return this.assignments.filter(
+              (assignment) => !assignment.complete
+            );
+          },
         },
       }).mount("#app");
     </script>
